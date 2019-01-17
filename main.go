@@ -1231,6 +1231,40 @@ func main() {
 			},
 		},
 		{
+			Name:      "rpc",
+			Aliases:   []string{"dlrpc"},
+			Usage:     "提交链接到aria2",
+			UsageText: fmt.Sprintf("%s rpc <文件1> <文件2> ...", app.Name),
+			Description: `
+	获取下载直链
+
+	若该功能无法正常使用, 提示"user is not authorized, hitcode:101", 尝试更换 User-Agent 为 netdisk;8.3.1;andorid-android:
+	BaiduPCS-Go config set -user_agent "netdisk;8.3.1;andorid-android"
+`,
+			Category: "百度网盘",
+			Before:   reloadFn,
+			Action: func(c *cli.Context) error {
+				if c.NArg() < 1 {
+					cli.ShowCommandHelp(c, c.Command.Name)
+					return nil
+				}
+
+				opt := &pcscommand.LocateDownloadOption{
+					FromPan: c.Bool("pan"),
+					ExportRpc: true,
+				}
+
+				pcscommand.RunLocateDownload(c.Args(), opt)
+				return nil
+			},
+			Flags: []cli.Flag{
+				cli.BoolFlag{
+					Name:  "pan",
+					Usage: "从百度网盘首页获取下载链接",
+				},
+			},
+		},
+		{
 			Name:      "rapidupload",
 			Aliases:   []string{"ru"},
 			Usage:     "手动秒传文件",
@@ -1780,6 +1814,9 @@ func main() {
 						if c.IsSet("user_agent") {
 							pcsconfig.Config.SetUserAgent(c.String("user_agent"))
 						}
+						if c.IsSet("rpc_address") {
+							pcsconfig.Config.SetRPCAddress(c.String("rpc_address"))
+						}
 						if c.IsSet("cache_size") {
 							pcsconfig.Config.SetCacheSize(c.Int("cache_size"))
 						}
@@ -1845,6 +1882,10 @@ func main() {
 						cli.StringFlag{
 							Name:  "user_agent",
 							Usage: "浏览器标识",
+						},
+						cli.StringFlag{
+							Name:  "rpc_address",
+							Usage: "rpc 地址",
 						},
 						cli.StringFlag{
 							Name:  "proxy",

@@ -24,6 +24,7 @@ type pcsConfigJSONExport struct {
 	MaxLoad           int `json:"max_download_load"`   // 同时进行下载文件的最大数量
 
 	UserAgent   string `json:"user_agent"`   // 浏览器标识
+	RPCAddress  string `json:"rpc_address"`  // 浏览器标识
 	SaveDir     string `json:"savedir"`      // 下载储存路径
 	EnableHTTPS bool   `json:"enable_https"` // 启用https
 	Proxy       string `json:"proxy"`        // 代理
@@ -104,6 +105,11 @@ func (c *PCSConfig) UserAgent() string {
 	return c.userAgent
 }
 
+// RPCAddress 返回rpc address
+func (c *PCSConfig) RPCAddress() string {
+	return c.rpcAddress
+}
+
 // SaveDir 返回下载保存路径
 func (c *PCSConfig) SaveDir() string {
 	return c.saveDir
@@ -143,6 +149,7 @@ func (c *PCSConfig) PrintTable() {
 		[]string{"savedir", c.saveDir, "", "下载文件的储存目录"},
 		[]string{"enable_https", fmt.Sprint(c.enableHTTPS), "true", "启用 https"},
 		[]string{"user_agent", c.userAgent, "", "浏览器标识"},
+		[]string{"rpc_address", c.rpcAddress, "", "rpc 地址"},
 		[]string{"proxy", c.proxy, "", "设置代理, 支持 http/socks5 代理"},
 		[]string{"local_addrs", c.localAddrs, "", "设置本地网卡地址, 多个地址用逗号隔开"},
 	})

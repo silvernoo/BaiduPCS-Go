@@ -41,6 +41,7 @@ type PCSConfig struct {
 	maxUploadParallel int    // 最大上传并发量
 	maxDownloadLoad   int    // 同时进行下载文件的最大数量
 	userAgent         string // 浏览器标识
+	rpcAddress         string // 浏览器标识
 	saveDir           string // 下载储存路径
 	enableHTTPS       bool   // 启用https
 	proxy             string // 代理

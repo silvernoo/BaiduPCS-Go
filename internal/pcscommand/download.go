@@ -77,7 +77,8 @@ type (
 
 	// LocateDownloadOption 获取下载链接可选参数
 	LocateDownloadOption struct {
-		FromPan bool
+		FromPan   bool
+		ExportRpc bool
 	}
 )
 
@@ -639,14 +640,19 @@ func RunLocateDownload(pcspaths []string, opt *LocateDownloadOption) {
 			fmt.Printf("[%d] %s, 路径: %s\n", i, err, pcspath)
 			continue
 		}
-
-		fmt.Printf("[%d] %s: \n", i, pcspath)
-		tb := pcstable.NewTable(os.Stdout)
-		tb.SetHeader([]string{"#", "链接"})
-		for k, u := range info.URLStrings(pcsconfig.Config.EnableHTTPS()) {
-			tb.Append([]string{strconv.Itoa(k), u.String()})
+		if opt.ExportRpc {
+			for _, u := range info.URLStrings(pcsconfig.Config.EnableHTTPS())[:1] {
+				SendToRPC(u.String())
+			}
+		} else {
+			fmt.Printf("[%d] %s: \n", i, pcspath)
+			tb := pcstable.NewTable(os.Stdout)
+			tb.SetHeader([]string{"#", "链接"})
+			for k, u := range info.URLStrings(pcsconfig.Config.EnableHTTPS()) {
+				tb.Append([]string{strconv.Itoa(k), u.String()})
+			}
+			tb.Render()
 		}
-		tb.Render()
 		fmt.Println()
 	}
 	fmt.Printf("提示: 访问下载链接, 需将下载器的 User-Agent 设置为: %s\n", pcsconfig.Config.UserAgent())

@@ -171,6 +171,11 @@ func (c *PCSConfig) SetUserAgent(userAgent string) {
 	}
 }
 
+// SetUserAgent 设置User-Agent
+func (c *PCSConfig) SetRPCAddress(RPCAddress string) {
+	c.rpcAddress = RPCAddress
+}
+
 // SetSaveDir 设置下载保存路径
 func (c *PCSConfig) SetSaveDir(saveDir string) {
 	c.saveDir = saveDir
