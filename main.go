@@ -1233,10 +1233,10 @@ func main() {
 		{
 			Name:      "rpc",
 			Aliases:   []string{"dlrpc"},
-			Usage:     "提交链接到aria2",
+			Usage:     "推送下载到Aria2",
 			UsageText: fmt.Sprintf("%s rpc <文件1> <文件2> ...", app.Name),
 			Description: `
-	获取下载直链
+	推送下载到Aria2
 
 	若该功能无法正常使用, 提示"user is not authorized, hitcode:101", 尝试更换 User-Agent 为 netdisk;8.3.1;andorid-android:
 	BaiduPCS-Go config set -user_agent "netdisk;8.3.1;andorid-android"
@@ -1260,7 +1260,7 @@ func main() {
 			Flags: []cli.Flag{
 				cli.BoolFlag{
 					Name:  "pan",
-					Usage: "从百度网盘首页获取下载链接",
+					Usage: "推送下载到Aria2",
 				},
 			},
 		},
